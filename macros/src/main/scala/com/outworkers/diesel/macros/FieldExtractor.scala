@@ -12,7 +12,7 @@ object FieldExtractor {
 class FieldExtractorMacro(val c: scala.reflect.macros.blackbox.Context) {
   import c.universe._
 
-  def fieldsImpl[Table : c.WeakTypeTag, Col : c.WeakTypeTag]: Tree = {
+  def fieldsImpl[Table : c.WeakTypeTag, Col : c.TypeTag]: Tree = {
     val tpe = weakTypeOf[Table]
     val colTpe = weakTypeOf[Col]
     val members: Seq[c.Symbol] = (for {
@@ -21,7 +21,7 @@ class FieldExtractorMacro(val c: scala.reflect.macros.blackbox.Context) {
       if symbol.typeSignature <:< c.typeOf[Col]
     } yield symbol)(collection.breakOut)
 
-    val objects = members.distinct.map(_.companion.name)
+    val objects = members.distinct.map(_.name.toTypeName)
 
     q"""new com.outworkers.diesel.macros.FieldExtractor[$tpe, $colTpe] {
        def fields: Seq[$colTpe] = {Seq(..$objects)}

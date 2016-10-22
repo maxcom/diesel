@@ -111,6 +111,7 @@ lazy val macros = (project in file("macros"))
   .settings(
     moduleName := "diesel-macros",
     scalacOptions ++= Seq(
+      "-language:experimental.macros",
       "-Ymacro-debug-verbose",
       "-Yshow-trees-stringified"
     ),
@@ -122,9 +123,9 @@ lazy val macros = (project in file("macros"))
         }
       })),
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "macro-compat" % "1.1.1",
-      "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
-      "org.scalatest" %% "scalatest" % Versions.scalatest
+      "org.typelevel" %% "macro-compat" % "1.1.1"
+      //"org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
+      //"org.scalatest" %% "scalatest" % Versions.scalatest
     )
   ).settings(
     sharedSettings

@@ -109,7 +109,7 @@ object Publishing {
   def jdk8Only(ref: ProjectReference): Seq[ProjectReference] = addOnCondition(isJdk8, ref)
 
   def effectiveSettings: Seq[Def.Setting[_]] = {
-    val base = if (sys.env.contains("MAVEN_PUBLISH")) mavenSettings else bintraySettings
+    val base = if (!sys.env.contains("MAVEN_PUBLISH")) mavenSettings else bintraySettings
     base ++ defaultPublishingSettings
   }
 }
